@@ -19,6 +19,7 @@ defmodule Glurc.Dexcom do
         "state" => System.get_env("SECRET_KEY_BASE")
       }
     )
+    |> OAuth2.Client.put_serializer("application/json", Jason)
   end
 
   def authorize_url!(params \\ []) do
@@ -34,6 +35,10 @@ defmodule Glurc.Dexcom do
     |> put_header("cache-control", "no-cache")
     |> put_param("client_secret", System.get_env("DEXCOM_CLIENT_SECRET"))
     |> OAuth2.Client.get_token!(params, headers)
+  end
+
+  def get_readings(token, start_date \\ "2017-06-16T15:20:00", end_date \\ "2017-06-16T15:30:00") do
+    OAuth2.Client.get!(token, "/v2/users/self/egvs?startDate=#{start_date}&endDate=#{end_date}")
   end
 
   def authorize_url(client, params) do
