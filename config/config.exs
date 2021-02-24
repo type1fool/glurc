@@ -10,7 +10,7 @@ use Mix.Config
 # Configures the endpoint
 config :glurc, GlurcWeb.Endpoint,
   url: [host: "localhost"],
-  secret_key_base: "4SGIgpOAJimHvWasaOQUrpEQHaJ8n+XMuP0W0xn+5Ii4KMxEUJI1Gx6rRgST15Xw",
+  secret_key_base: System.get_env("SECRET_KEY_BASE"),
   render_errors: [view: GlurcWeb.ErrorView, accepts: ~w(html json), layout: false],
   pubsub_server: Glurc.PubSub,
   live_view: [signing_salt: "XHqG1uGF"]
@@ -22,6 +22,14 @@ config :logger, :console,
 
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
+
+# config :ueberauth, Ueberauth,
+#   providers: [
+#     dexcom: {
+#       OAuth2.Strategy.AuthCode,
+#       []
+#     }
+#   ]
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
